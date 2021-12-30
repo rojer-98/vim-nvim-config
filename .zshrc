@@ -1,30 +1,29 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-export LANG=en_US.UTF-8
-export LC_CTYPE=en_US.UTF-8
-export CONKY_FLAG="0"
-set $TERM=xterm-256color
 # Path to your oh-my-zsh installation.
 export ZSH="/home/rojer/.oh-my-zsh"
-export PATH=$PATH:/usr/local/go/bin
-export PATH=$PATH:$HOME/.cargo/bin
-export PATH=$PATH:$HOME/.cargo/bin/racer
-export PATH=$PATH:$HOME/.local/bin
-export PATH=$PATH:$HOME/.cabal/bin
-export PATH=$PATH:$HOME/skype/bin
-export PATH=$PATH:$HOME/Godot_Engine
-export PATH=$PATH:$HOME/SHADERed/bin
+export PATH=$PATH:"/home/rojer/.cargo/bin"
+export PATH=$PATH:"/home/rojer/.local/bin"
+export PATH=$PATH:"/home/rojer/.local/share/solana/install/active_release/bin"
+export PATH=$PATH:"/home/rojer/.nvm/versions/node/v17.2.0/bin"
+export RUST_SRC_PATH=$(rustc --print sysroot):"/lib/rustlib/src/rust/src"
+
+export GOBIN="/home/rojer/.go/bin"
+export GOPATH="/home/rojer/.go"
+export PATH=$PATH:$GOBIN
+
+export WORKSPACE="/home/rojer/workspace/"
+export PET_PROJECTS=$WORKSPACE"pet_projects"
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="jonathan"
-#setxkbmap "us,ru" :",winkeys" "grp:alt_shift_toggle"
-#conky -c /etc/conky/conky.conf &
-#feh --bg-scale /home/rojer/Pictures/linii-fon-tochki.jpg
-alias pip='pip3'
-alias cutter='~/radare_cutter/Cutter-v1.11.0-x64.Linux.AppImage'
+ZSH_THEME="gnzh"
+export VISUAL=nvim;
+export EDITOR=nvim;
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -38,14 +37,13 @@ alias cutter='~/radare_cutter/Cutter-v1.11.0-x64.Linux.AppImage'
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# zstyle ':omz:update' frequency 13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
@@ -60,6 +58,9 @@ alias cutter='~/radare_cutter/Cutter-v1.11.0-x64.Linux.AppImage'
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -83,7 +84,7 @@ alias cutter='~/radare_cutter/Cutter-v1.11.0-x64.Linux.AppImage'
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git cargo cabal history golang rust rustup ubuntu sudo man tmux)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -112,9 +113,12 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-if [ -z "$TMUX"  ] && [ ${UID} != 0  ]
-then
-  tmux new-session -A -s main
-fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+bashcompinit
+source /opt/vcpkg/scripts/vcpkg_completion.zsh
+source /usr/share/nvm/init-nvm.sh
+
+# NodeJs magic parameter
+export NODE_OPTIONS=--openssl-legacy-provider
