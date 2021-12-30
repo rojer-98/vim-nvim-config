@@ -3,67 +3,43 @@
 "   plugge
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
-
+Plug 'tomlion/vim-solidity'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'folke/lsp-colors.nvim'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'vim-syntastic/syntastic'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'cespare/vim-toml'
+"Plug 'dense-analysis/ale'
 Plug 'szw/vim-tags'
 Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Make sure you use single quotes
-
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 Plug 'junegunn/vim-easy-align'
-
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-
 " Multiple Plug commands can be written in a single line using | separators
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-" Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-
-" Using a non-master branch
-" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-
-" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-Plug 'fatih/vim-go', { 'tag': '*' }
-
 " Plugin options
 Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
-
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-
 "plugins here, coc for example
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-
 Plug 'bfrg/vim-cpp-modern'
 Plug 'airblade/vim-gitgutter'
-
 Plug 'tpope/vim-sleuth'
 Plug 'editorconfig/editorconfig-vim'
-
-
 Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
 Plug 'preservim/nerdcommenter'
-
 Plug 'jiangmiao/auto-pairs'
-Plug 'machakann/vim-sandwich'
-
-
-Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
 Plug 'rhysd/vim-clang-format'
-Plug 'racer-rust/vim-racer'
-" Plug 'https://github.com/ycm-core/YouCompleteMe.git'
-
-" Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': './install.sh' }
-
-" Plug 'rust-analyzer/rust-analyzer'
 Plug 'terryma/vim-multiple-cursors'
-
-
 " Initialize plugin system
 call plug#end()
 
@@ -78,12 +54,6 @@ let g:multi_cursor_next_key            = '<C-n>'
 let g:multi_cursor_prev_key            = '<C-p>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
-
-function! GitStatus()
-  let [a,m,r] = GitGutterGetHunkSummary()
-  return printf('+%d ~%d -%d', a, m, r)
-endfunction
-set statusline+=%{GitStatus()}
 
 let g:lsp_cxx_hl_use_text_props = 1
 
@@ -127,7 +97,6 @@ nmap <leader>rn <Plug>(coc-rename)
 nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
 "manage extensions.
 nnoremap <silent> <space>e :<C-u>CocList extensions<cr> 
-filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
@@ -187,42 +156,18 @@ filetype plugin indent on
 
 "let g:ycm_semantic_triggers = {'haskell' : ['.']}
 " Start autocompletion after 4 chars
-let g:ycm_min_num_of_chars_for_completion = 4
-let g:ycm_min_num_identifier_candidate_chars = 4
-let g:ycm_enable_diagnostic_highlighting = 0
+"let g:ycm_min_num_of_chars_for_completion = 4
+"let g:ycm_min_num_identifier_candidate_chars = 4
+"let g:ycm_enable_diagnostic_highlighting = 0
 " Don't show YCM's preview window [ I find it really annoying ]
 set completeopt-=preview
-let g:ycm_add_preview_to_completeopt = 0
+"let g:ycm_add_preview_to_completeopt = 0
 
 " Source a global configuration file if available
 set hidden
-let g:racer_cmd = "/home/rojer/.cargo/bin/racer"
-let g:racer_experimental_completer = 1
-let g:racer_insert_paren = 1
-
-let mapleader = '\'
-augroup Racer
-    autocmd!
-    autocmd FileType rust nmap <buffer> gd         <Plug>(rust-def)
-    autocmd FileType rust nmap <buffer> gs         <Plug>(rust-def-split)
-    autocmd FileType rust nmap <buffer> gx         <Plug>(rust-def-vertical)
-    autocmd FileType rust nmap <buffer> gt         <Plug>(rust-def-tab)
-    autocmd FileType rust nmap <buffer> <leader>gd <Plug>(rust-doc)
-    autocmd FileType rust nmap <buffer> <leader>gD <Plug>(rust-doc-tab)
-augroup END
-
 set number
 set omnifunc=glsl#CompleteFunc
 
-let g:clang_format#style_options = {
-            \ "AccessModifierOffset" : -4,
-            \ "AllowShortIfStatementsOnASingleLine" : "true",
-            \ "AlwaysBreakTemplateDeclarations" : "true",
-            \ "Standard" : "C++20",
-            \ "BreakBeforeBraces" : "Stroustrup",
-            \ "BasedOnStyle" : "LLVM"}
-
-let g:clang_format#code_style = "mozilla"
 let g:clang_format#auto_format = 1
 
 let g:rustfmt_autosave = 1
@@ -231,20 +176,30 @@ let g:rustfmt_command = "rustup run nightly rustfmt"
 
 autocmd FileType c,cpp ClangFormatAutoEnable
 
-let g:go_highlight_structs = 1 
-let g:go_highlight_methods = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
+let g:go_auto_sameids = 1
+let g:go_highlight_array_whitespace_error = 1
+let g:go_highlight_chan_whitespace_error = 1
 let g:go_highlight_extra_types = 1
+let g:go_highlight_space_tab_error = 1
+let g:go_highlight_trailing_whitespace_error = 0
+let g:go_highlight_operators = 1
+let g:go_highlight_functions = 1
 let g:go_highlight_function_parameters = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_generate_tags = 1
+let g:go_highlight_string_spellcheck = 1
+let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
+let g:go_fmt_experimental = 1
+let g:go_metalinter_autosave=1
+let g:go_metalinter_autosave_enabled=['golint', 'govet']
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = "goimports"
+let g:go_auto_type_info = 1
 
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
@@ -256,77 +211,6 @@ let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
 let g:cpp_posix_standard = 1
 let g:cpp_experimental_template_highlight = 1
-
-set foldtext=gitgutter#fold#foldtext()
-function! GitStatus()
-  let [a,m,r] = GitGutterGetHunkSummary()
-  return printf('+%d ~%d -%d', a, m, r)
-endfunction
-set statusline+=%{GitStatus()}
-
-function! NextHunkAllBuffers()
-  let line = line('.')
-  GitGutterNextHunk
-  if line('.') != line
-    return
-  endif
-
-  let bufnr = bufnr('')
-  while 1
-    bnext
-    if bufnr('') == bufnr
-      return
-    endif
-    if !empty(GitGutterGetHunks())
-      1
-      GitGutterNextHunk
-      return
-    endif
-  endwhile
-endfunction
-
-function! PrevHunkAllBuffers()
-  let line = line('.')
-  GitGutterPrevHunk
-  if line('.') != line
-    return
-  endif
-
-  let bufnr = bufnr('')
-  while 1
-    bprevious
-    if bufnr('') == bufnr
-      return
-    endif
-    if !empty(GitGutterGetHunks())
-      normal! G
-      GitGutterPrevHunk
-      return
-    endif
-  endwhile
-endfunction
-
-nmap <silent> ]c :call NextHunkAllBuffers()<CR>
-nmap <silent> [c :call PrevHunkAllBuffers()<CR>
-
-" or you could do this:
-let g:gitgutter_sign_allow_clobber = 1
-let g:gitgutter_set_sign_backgrounds = 1
-let g:gitgutter_sign_added = '++'
-let g:gitgutter_sign_modified = 'oo'
-let g:gitgutter_sign_removed = '--'
-let g:gitgutter_sign_removed_first_line = '^^'
-let g:gitgutter_sign_removed_above_and_below = '{{'
-let g:gitgutter_sign_modified_removed = 'ww'
-highlight link GitGutterChangeLine DiffText
-highlight link GitGutterChangeLineNr Underlined
-highlight GitGutterAdd    guifg=#009900 ctermfg=2
-highlight GitGutterChange guifg=#bbbb00 ctermfg=3
-highlight GitGutterDelete guifg=#ff2222 ctermfg=1
-let g:gitgutter_diff_relative_to = 'working_tree'
-"let g:gitgutter_highlight_lines = 1
-"let g:gitgutter_highlight_linenrs = 1
-set updatetime=100
 
 augroup javascript_folding
     au!
@@ -342,7 +226,8 @@ nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
-let NERDTreeMapOpenInTab='<ENTER>'
+" Start NERDTree and leave the cursor in it.
+" autocmd VimEnter * NERDTree
 set exrc
 set secure
 set autochdir 
@@ -354,6 +239,26 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+
+let g:airline_right_alt_sep = '|'
+let g:airline_right_sep = ' '
+
 let g:airline_powerline_fonts = 1
-let g:airline_theme='ravenpower'
-highlight clear SignColumn
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='supernova'
+" highlight clear SignColumn
+
+let g:syntastic_cpp_checkers = ['cpplint']
+let g:syntastic_c_checkers = ['cpplint']
+let g:syntastic_cpp_cpplint_exec = 'cpplint'
+" The following two lines are optional. Configure it to your liking!
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:markdown_fenced_languages = [
+      \ 'vim',
+      \ 'help'
+      \]
+
+colorscheme onehalfdark
+set tabstop=3 
